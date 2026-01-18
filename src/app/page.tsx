@@ -3,13 +3,18 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { CurriculoPDF } from "@/components/CurriculoPDF";
-import { MobilePDFPreview } from "@/components/MobilePDFPreview";
 import { Toolbar } from "@/components/Toolbar";
 import { DadosCurriculo, estadoInicial } from "@/types";
 import { useDebounce } from "@/hooks/useDebounce";
 import { toast, Toaster } from 'sonner';
 import { salvarCurriculo, carregarCurriculo } from "./actions";
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+
+// Dynamic import do MobilePDFPreview para evitar erro de SSR (DOMMatrix)
+const MobilePDFPreview = dynamic(
+  () => import("@/components/MobilePDFPreview").then((mod) => mod.MobilePDFPreview),
+  { ssr: false, loading: () => <div className="flex items-center justify-center py-20"><div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" /></div> }
+);
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
