@@ -3,9 +3,11 @@ import { NextResponse } from 'next/server';
 
 // Rotas públicas (não requerem autenticação)
 const isPublicRoute = createRouteMatcher([
-  '/u/(.*)',       // Currículos públicos
-  '/sign-in(.*)',  // Página de login
-  '/sign-up(.*)',  // Página de cadastro
+  '/u/(.*)',           // Currículos públicos
+  '/sign-in(.*)',      // Página de login
+  '/sign-up(.*)',      // Página de cadastro
+  '/forgot-password',  // Recuperação de senha
+  '/sso-callback',     // Callback OAuth
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
