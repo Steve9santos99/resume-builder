@@ -29,6 +29,7 @@ export default function Home() {
   const [dados, setDados] = useState<DadosCurriculo>(estadoInicial);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
   const dadosCarregados = useRef(false);
 
   // Debounce para performance do PDF
@@ -234,7 +235,11 @@ export default function Home() {
       <div className="flex flex-1 overflow-hidden">
         
         {/* FORMULÁRIO - SIDEBAR MODERNIZADA */}
-        <div className="w-full md:w-[420px] bg-white border-r border-slate-200 overflow-y-auto sidebar" style={{ padding: '24px 28px 80px' }}>
+        {/* No mobile: esconde quando preview está aberto */}
+        <div className={`
+          w-full md:w-[420px] bg-white border-r border-slate-200 overflow-y-auto sidebar
+          ${showMobilePreview ? 'hidden md:block' : 'block'}
+        `} style={{ padding: '24px 28px 100px' }}>
           
           {/* FOTO */}
           <div className="mb-8 flex flex-col items-center">
@@ -418,14 +423,37 @@ export default function Home() {
         </div>
 
         {/* PREVIEW PDF - EFEITO PAPEL REAL */}
-        <div className="flex-1 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100 flex justify-center items-center p-8 relative">
+        {/* No mobile: overlay em tela cheia quando ativo */}
+        <div className={`
+          bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 flex-col justify-center items-center relative
+          ${showMobilePreview 
+            ? 'fixed inset-0 z-50 flex' 
+            : 'hidden md:flex flex-1'
+          }
+        `}>
+          {/* Header Mobile do Preview */}
+          {showMobilePreview && (
+            <div className="absolute top-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm p-4 flex justify-between items-center z-50 border-b border-slate-700 md:hidden">
+              <button 
+                onClick={() => setShowMobilePreview(false)}
+                className="flex items-center gap-2 text-white font-medium bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition-colors"
+              >
+                <span>←</span> Voltar e Editar
+              </button>
+              <span className="text-slate-400 text-sm">Visualização</span>
+            </div>
+          )}
+
+          {/* Indicador de atualização */}
           {dados !== dadosParaPDF && (
-            <div className="absolute top-4 right-4 bg-purple-600 text-white text-xs px-4 py-2 rounded-lg shadow-lg shadow-purple-500/30 animate-pulse z-10 flex items-center gap-2">
+            <div className={`absolute ${showMobilePreview ? 'top-20' : 'top-4'} right-4 bg-purple-600 text-white text-xs px-4 py-2 rounded-lg shadow-lg shadow-purple-500/30 animate-pulse z-10 flex items-center gap-2`}>
               <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Atualizando...
             </div>
           )}
-          <div className="pdf-container w-full h-full">
+          
+          {/* Container do PDF */}
+          <div className={`pdf-container ${showMobilePreview ? 'w-[95%] h-[calc(100%-80px)] mt-16' : 'w-full h-full'} p-4 md:p-8`}>
             <PDFViewer width="100%" height="100%">
               <CurriculoPDF dados={dadosParaPDF} />
             </PDFViewer>
@@ -433,6 +461,17 @@ export default function Home() {
         </div>
 
       </div>
+
+      {/* BOTÃO FLUTUANTE (FAB) - Apenas Mobile */}
+      {!showMobilePreview && (
+        <button
+          onClick={() => setShowMobilePreview(true)}
+          className="md:hidden fixed bottom-6 right-6 z-40 bg-purple-600 hover:bg-purple-700 text-white w-16 h-16 rounded-full shadow-2xl shadow-purple-500/40 flex items-center justify-center active:scale-90 transition-all"
+          title="Ver PDF"
+        >
+          <span className="text-2xl">👁️</span>
+        </button>
+      )}
     </main>
   );
 }
