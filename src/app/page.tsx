@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { CurriculoPDF } from "@/components/CurriculoPDF";
+import { MobilePDFPreview } from "@/components/MobilePDFPreview";
 import { Toolbar } from "@/components/Toolbar";
 import { DadosCurriculo, estadoInicial } from "@/types";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -452,12 +453,20 @@ export default function Home() {
             </div>
           )}
           
-          {/* Container do PDF */}
-          <div className={`pdf-container ${showMobilePreview ? 'w-[95%] h-[calc(100%-80px)] mt-16' : 'w-full h-full'} p-4 md:p-8`}>
-            <PDFViewer width="100%" height="100%">
-              <CurriculoPDF dados={dadosParaPDF} />
-            </PDFViewer>
-          </div>
+          {/* Container do PDF - Mobile vs Desktop */}
+          {showMobilePreview ? (
+            /* Mobile: Usa MobilePDFPreview que renderiza como canvas */
+            <div className="w-full h-[calc(100%-80px)] mt-16 overflow-y-auto p-4">
+              <MobilePDFPreview dados={dadosParaPDF} />
+            </div>
+          ) : (
+            /* Desktop: Usa PDFViewer nativo */
+            <div className="pdf-container w-full h-full p-8">
+              <PDFViewer width="100%" height="100%">
+                <CurriculoPDF dados={dadosParaPDF} />
+              </PDFViewer>
+            </div>
+          )}
         </div>
 
       </div>
