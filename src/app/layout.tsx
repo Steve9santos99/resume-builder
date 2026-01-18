@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
+import { ptBR } from '@clerk/localizations';
 import "./globals.css";
 
 const inter = Inter({
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={ptBR}>
       <html lang="pt-BR">
         <body className={`${inter.variable} antialiased`}>
           {children}
