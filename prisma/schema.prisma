@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Curriculo {
+  id           String   @id @default(cuid())
+  
+  // Identificador único do usuário (será o ID do Clerk ou um ID local)
+  userId       String   @unique
+  
+  // Slug para link público (ex: /u/maria-santos)
+  slug         String   @unique @default(cuid())
+  
+  // Personalização
+  corPrincipal String   @default("#2c3e50")
+  fotoUrl      String?
+  
+  // Conteúdo do currículo (JSON serializado)
+  conteudo     String
+  
+  // Timestamps
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
