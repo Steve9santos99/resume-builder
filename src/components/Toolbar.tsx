@@ -38,30 +38,35 @@ export const Toolbar = ({ slug, onSave, isSaving, dados }: ToolbarProps) => {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-1">
       <button 
         onClick={handleDownloadBackup}
-        className="text-slate-300 hover:text-white text-xs px-3 py-2 border border-slate-600 rounded transition-colors"
+        className="text-slate-500 hover:text-slate-700 hover:bg-slate-200 text-xs px-3 py-2 rounded-lg transition-all flex items-center gap-1.5"
         title="Baixar dados em JSON"
       >
-        📥 Backup
+        📥 <span className="hidden sm:inline">Backup</span>
       </button>
 
       <button 
         onClick={handleCopyLink}
-        className="text-slate-300 hover:text-white text-xs px-3 py-2 border border-slate-600 rounded transition-colors flex items-center gap-1"
+        className="text-slate-500 hover:text-slate-700 hover:bg-slate-200 text-xs px-3 py-2 rounded-lg transition-all flex items-center gap-1.5"
       >
-        🔗 Copiar Link
+        🔗 <span className="hidden sm:inline">Copiar Link</span>
       </button>
 
       <button 
         onClick={onSave}
         disabled={isSaving}
-        className="bg-green-600 hover:bg-green-500 disabled:opacity-50 text-white text-xs px-4 py-2 rounded transition-colors font-bold shadow-lg flex items-center gap-2"
+        className="bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white text-xs px-4 py-2 rounded-lg transition-all font-semibold shadow-md shadow-emerald-500/30 flex items-center gap-2 hover:shadow-lg hover:-translate-y-0.5"
       >
         {isSaving ? (
-          <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-        ) : "💾 Salvar"}
+          <>
+            <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span>Salvando...</span>
+          </>
+        ) : (
+          <>💾 Salvar</>
+        )}
       </button>
     </div>
   );

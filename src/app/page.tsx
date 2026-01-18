@@ -180,108 +180,122 @@ export default function Home() {
   if (!isClient) return null;
 
   return (
-    <main className="flex flex-col h-screen bg-slate-100">
+    <main className="flex flex-col h-screen bg-slate-50">
       <Toaster position="top-right" richColors />
       
-      {/* HEADER */}
-      <header className="bg-slate-900 text-white p-4 shadow-lg border-b border-slate-800 flex justify-between items-center z-10 relative">
+      {/* HEADER MODERNIZADO */}
+      <header className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-lg shadow-md">CV</div>
+          <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center font-bold text-lg text-white shadow-lg shadow-purple-500/25">CV</div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight">Resume Builder</h1>
-            <span className="text-[10px] text-slate-400">Gerador de Currículos Profissionais</span>
+            <h1 className="text-lg font-bold text-slate-800">Resume Builder</h1>
+            <span className="text-xs text-slate-400">Gerador de Currículos Profissionais</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <Toolbar 
-            slug={dados.slug || ''} 
-            onSave={handleSalvarNuvem} 
-            isSaving={isSaving} 
-            dados={dados} 
-          />
-          <div className="h-6 w-px bg-slate-700"></div>
-          <button onClick={limparTudo} className="text-xs text-red-400 hover:text-red-300 px-2 py-1 border border-red-900 rounded">
+        <div className="flex items-center gap-3">
+          {/* Botões de ação agrupados */}
+          <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-1">
+            <Toolbar 
+              slug={dados.slug || ''} 
+              onSave={handleSalvarNuvem} 
+              isSaving={isSaving} 
+              dados={dados} 
+            />
+          </div>
+          
+          {/* Limpar - link de texto */}
+          <button onClick={limparTudo} className="text-xs text-slate-400 hover:text-red-500 transition-colors">
             Limpar
           </button>
-          <div className="h-6 w-px bg-slate-700"></div>
-          <SignedIn>
-            <UserButton 
-              appearance={{
-                elements: {
-                  avatarBox: "w-8 h-8"
-                }
-              }}
-            />
-          </SignedIn>
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="text-xs bg-blue-600 hover:bg-blue-500 px-3 py-1.5 rounded font-medium">
-                Entrar
-              </button>
-            </SignInButton>
-          </SignedOut>
+          
+          {/* Usuário */}
+          <div className="pl-3 border-l border-slate-200">
+            <SignedIn>
+              <UserButton 
+                appearance={{
+                  elements: {
+                    avatarBox: "w-9 h-9 ring-2 ring-purple-100"
+                  }
+                }}
+              />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all shadow-md shadow-purple-500/25 hover:shadow-lg hover:-translate-y-0.5">
+                  Entrar
+                </button>
+              </SignInButton>
+            </SignedOut>
+          </div>
         </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
         
-        {/* FORMULÁRIO */}
-        <div className="w-full md:w-1/3 bg-white border-r overflow-y-auto p-5 pb-20">
+        {/* FORMULÁRIO - SIDEBAR MODERNIZADA */}
+        <div className="w-full md:w-[420px] bg-white border-r border-slate-200 overflow-y-auto sidebar" style={{ padding: '24px 28px 80px' }}>
           
           {/* FOTO */}
-          <div className="mb-6 flex flex-col items-center">
-            <div className="relative w-24 h-24 mb-2">
+          <div className="mb-8 flex flex-col items-center">
+            <div className="relative w-28 h-28 mb-3">
               {dados.fotoUrl ? (
-                <img src={dados.fotoUrl} alt="Perfil" className="w-full h-full rounded-full object-cover border-4 border-white shadow-md" />
+                <img src={dados.fotoUrl} alt="Perfil" className="w-full h-full rounded-2xl object-cover border-4 border-white shadow-lg" />
               ) : (
-                <div className="w-full h-full rounded-full bg-slate-200 flex items-center justify-center text-slate-400 border-4 border-white shadow-md text-2xl">
+                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-slate-400 border-4 border-white shadow-lg text-3xl">
                   📷
                 </div>
               )}
-              <label className="absolute bottom-0 right-0 bg-blue-600 text-white p-1.5 rounded-full cursor-pointer hover:bg-blue-700 shadow-sm transition-transform hover:scale-110">
-                <span className="text-xs">✏️</span>
+              <label className="absolute -bottom-1 -right-1 bg-purple-600 text-white p-2 rounded-xl cursor-pointer hover:bg-purple-700 shadow-lg shadow-purple-500/30 transition-all hover:scale-105">
+                <span className="text-sm">✏️</span>
                 <input type="file" accept="image/*" onChange={handleFotoUpload} className="hidden" disabled={isUploading} />
               </label>
               {isUploading && (
-                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="absolute inset-0 bg-black/50 rounded-2xl flex items-center justify-center">
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 </div>
               )}
             </div>
-            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Foto de Perfil</p>
+            <p className="text-xs text-slate-400 font-medium">Foto de Perfil</p>
           </div>
 
-          {/* TEMAS */}
-          <div className="mb-6">
-            <h2 className="text-xs uppercase tracking-wide text-slate-500 font-bold mb-2">Cor do Tema</h2>
-            <div className="flex gap-3">
-              {CORES_DISPONIVEIS.map((cor) => (
-                <button
-                  key={cor}
-                  onClick={() => setDados(prev => ({ ...prev, corPrincipal: cor }))}
-                  className={`w-8 h-8 rounded-full border-2 transition-all hover:scale-110 ${
-                    dados.corPrincipal === cor ? 'border-slate-800 scale-110 shadow-md' : 'border-transparent opacity-70 hover:opacity-100'
-                  }`}
-                  style={{ backgroundColor: cor }}
-                  title={cor}
-                />
-              ))}
+          {/* PERSONALIZAÇÃO - Card especial */}
+          <div className="card-personalizacao mb-6">
+            <h2 className="text-xs uppercase tracking-wider text-purple-700 font-bold mb-4 flex items-center gap-2">
+              <span>🎨</span> Personalização
+            </h2>
+            
+            {/* Cores */}
+            <div className="mb-4">
+              <label className="input-label">Cor do Tema</label>
+              <div className="flex gap-3 flex-wrap">
+                {CORES_DISPONIVEIS.map((cor) => (
+                  <button
+                    key={cor}
+                    onClick={() => setDados(prev => ({ ...prev, corPrincipal: cor }))}
+                    className={`w-9 h-9 rounded-xl border-2 transition-all hover:scale-110 shadow-sm ${
+                      dados.corPrincipal === cor ? 'border-slate-800 scale-110 shadow-md ring-2 ring-offset-2 ring-slate-300' : 'border-white opacity-80 hover:opacity-100'
+                    }`}
+                    style={{ backgroundColor: cor }}
+                    title={cor}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-
-          {/* LINK PERSONALIZADO */}
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded">
-            <label className="text-xs font-bold text-blue-800 uppercase">Seu Link Público</label>
-            <div className="flex items-center mt-2">
-              <span className="text-slate-500 text-sm mr-1">/u/</span>
-              <input 
-                name="slug" 
-                value={dados.slug} 
-                onChange={handleChange} 
-                placeholder="seu-nome" 
-                className="flex-1 p-1 border-b border-blue-300 bg-transparent outline-none text-blue-900 font-medium"
-              />
+            
+            {/* Link */}
+            <div>
+              <label className="input-label">Link Público</label>
+              <div className="flex items-center bg-white rounded-xl border border-purple-200 px-4 py-3">
+                <span className="text-purple-400 text-sm font-medium">/u/</span>
+                <input 
+                  name="slug" 
+                  value={dados.slug} 
+                  onChange={handleChange} 
+                  placeholder="seu-nome" 
+                  className="flex-1 bg-transparent outline-none text-purple-700 font-medium ml-1 placeholder:text-purple-300"
+                />
+              </div>
             </div>
           </div>
 
@@ -372,27 +386,22 @@ export default function Home() {
 
         </div>
 
-        {/* PREVIEW PDF */}
-        <div className="w-full md:w-2/3 bg-slate-700 flex justify-center items-center p-8 relative">
+        {/* PREVIEW PDF - ÁREA MODERNIZADA */}
+        <div className="flex-1 bg-gradient-to-br from-slate-100 to-slate-200 flex justify-center items-center p-6 relative">
           {dados !== dadosParaPDF && (
-            <div className="absolute top-4 right-4 bg-yellow-500 text-white text-xs px-3 py-1 rounded shadow animate-pulse z-10">
-              Atualizando PDF...
+            <div className="absolute top-4 right-4 bg-purple-600 text-white text-xs px-4 py-2 rounded-lg shadow-lg shadow-purple-500/30 animate-pulse z-10 flex items-center gap-2">
+              <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Atualizando...
             </div>
           )}
-          <PDFViewer className="shadow-2xl rounded-sm" width="100%" height="100%">
-            <CurriculoPDF dados={dadosParaPDF} />
-          </PDFViewer>
+          <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl shadow-slate-400/30 border border-white">
+            <PDFViewer width="100%" height="100%">
+              <CurriculoPDF dados={dadosParaPDF} />
+            </PDFViewer>
+          </div>
         </div>
 
       </div>
-
-      <style jsx global>{`
-        .input-field { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.875rem; outline: none; transition: all 0.2s; background: white; }
-        .input-field:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
-        .btn-add { background: #10b981; color: white; font-size: 0.75rem; padding: 4px 12px; border-radius: 6px; font-weight: 600; transition: all 0.2s; }
-        .btn-add:hover { background: #059669; transform: translateY(-1px); }
-        .card-item { background: #f8fafc; padding: 14px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px; }
-      `}</style>
     </main>
   );
 }
