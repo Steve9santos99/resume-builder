@@ -32,6 +32,22 @@ export function MobilePDFPreview({ dados }: MobilePDFPreviewProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Função para baixar o PDF
+  const handleDownload = (url: string | null) => {
+    if (!url) return;
+    
+    const fileName = dados.nome 
+      ? `curriculo-${dados.nome.replace(/\s+/g, '-').toLowerCase()}.pdf`
+      : 'curriculo.pdf';
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flex flex-col items-center justify-start min-h-[400px] w-full">
       <BlobProvider document={<CurriculoPDF dados={dados} />}>
@@ -56,27 +72,37 @@ export function MobilePDFPreview({ dados }: MobilePDFPreviewProps) {
           }
           
           return (
-            <Document
-              file={url}
-              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-              loading={
-                <div className="flex items-center justify-center py-10">
-                  <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
-                </div>
-              }
-              className="flex flex-col items-center gap-4"
-            >
-              {Array.from(new Array(numPages), (_, index) => (
-                <Page 
-                  key={`page_${index + 1}`}
-                  pageNumber={index + 1} 
-                  width={width}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  className="shadow-2xl rounded-lg overflow-hidden"
-                />
-              ))}
-            </Document>
+            <>
+              {/* Botão de Download */}
+              <button
+                onClick={() => handleDownload(url)}
+                className="mb-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-emerald-500/30 transition-all active:scale-95 flex items-center gap-2"
+              >
+                <span>📥</span> Baixar PDF
+              </button>
+
+              <Document
+                file={url}
+                onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+                loading={
+                  <div className="flex items-center justify-center py-10">
+                    <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                  </div>
+                }
+                className="flex flex-col items-center gap-4"
+              >
+                {Array.from(new Array(numPages), (_, index) => (
+                  <Page 
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1} 
+                    width={width}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    className="shadow-2xl rounded-lg overflow-hidden"
+                  />
+                ))}
+              </Document>
+            </>
           );
         }}
       </BlobProvider>
