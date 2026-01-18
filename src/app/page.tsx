@@ -79,7 +79,8 @@ export default function Home() {
 
   const updateItem = (lista: 'experiencias' | 'formacao', index: number, campo: string, valor: string) => {
     setDados(prev => {
-      const novaLista = [...prev[lista]] as Record<string, string>[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const novaLista = [...prev[lista]] as any[];
       novaLista[index] = { ...novaLista[index], [campo]: valor };
       return { ...prev, [lista]: novaLista };
     });
