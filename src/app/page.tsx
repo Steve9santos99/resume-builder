@@ -301,32 +301,60 @@ export default function Home() {
 
           {/* DADOS PESSOAIS */}
           <div className="mb-8">
-            <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold mb-3">Sobre Você</h2>
-            <div className="grid gap-3">
-              <input name="nome" placeholder="Nome Completo" value={dados.nome} onChange={handleChange} className="input-field" />
-              <input name="cargo" placeholder="Cargo Desejado (ex: Desenvolvedor Full Stack)" value={dados.cargo} onChange={handleChange} className="input-field" />
-              <textarea name="resumo" placeholder="Resumo Profissional..." value={dados.resumo} onChange={handleChange} rows={4} className="input-field" />
+            <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold mb-4 flex items-center gap-2">
+              <span className="section-indicator"></span>
+              Sobre Você
+            </h2>
+            <div className="grid gap-4">
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">Nome Completo</label>
+                <input name="nome" placeholder="Ex: Erik Santos" value={dados.nome} onChange={handleChange} className="input-field" />
+              </div>
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">Cargo Desejado</label>
+                <input name="cargo" placeholder="Ex: Desenvolvedor Full Stack" value={dados.cargo} onChange={handleChange} className="input-field" />
+              </div>
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">Resumo Profissional</label>
+                <textarea name="resumo" placeholder="Escreva um breve resumo sobre sua carreira..." value={dados.resumo} onChange={handleChange} rows={4} className="input-field" />
+              </div>
             </div>
           </div>
 
           {/* CONTATO */}
           <div className="mb-8">
-            <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold mb-3">Contato & Skills</h2>
-            <div className="grid gap-3">
-              <input name="email" placeholder="E-mail" value={dados.email} onChange={handleChange} className="input-field" />
-              <input name="telefone" placeholder="Telefone" value={dados.telefone} onChange={handleChange} className="input-field" />
-              <input name="linkedin" placeholder="LinkedIn" value={dados.linkedin} onChange={handleChange} className="input-field" />
-              <div className="pt-2">
-                <label className="text-xs text-slate-400 block mb-1">Habilidades (separe por vírgula):</label>
-                <textarea name="habilidades" placeholder="Ex: React, Node.js, Python..." value={dados.habilidades} onChange={handleChange} className="input-field" rows={2} />
+            <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold mb-4 flex items-center gap-2">
+              <span className="section-indicator"></span>
+              Contato & Skills
+            </h2>
+            <div className="grid gap-4">
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">E-mail</label>
+                <input name="email" placeholder="seu@email.com" value={dados.email} onChange={handleChange} className="input-field" />
+              </div>
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">Telefone</label>
+                <input name="telefone" placeholder="(00) 00000-0000" value={dados.telefone} onChange={handleChange} className="input-field" />
+              </div>
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">LinkedIn</label>
+                <input name="linkedin" placeholder="linkedin.com/in/seu-perfil" value={dados.linkedin} onChange={handleChange} className="input-field" />
+              </div>
+              <div className="group">
+                <label className="input-label group-focus-within:text-purple-600 transition-colors">Habilidades</label>
+                <textarea name="habilidades" placeholder="React, Node.js, Python, TypeScript..." value={dados.habilidades} onChange={handleChange} className="input-field" rows={2} />
+                <p className="text-[10px] text-slate-400 mt-1">Separe por vírgula</p>
               </div>
             </div>
           </div>
 
           {/* EXPERIÊNCIAS */}
           <div className="mb-8">
-            <div className="flex justify-between items-end mb-3">
-              <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold">Experiência</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold flex items-center gap-2">
+                <span className="section-indicator"></span>
+                Experiência
+              </h2>
               <button onClick={() => addItem('experiencias')} className="btn-add">+ Adicionar</button>
             </div>
             {dados.experiencias.map((exp, index) => (
@@ -351,8 +379,11 @@ export default function Home() {
 
           {/* FORMAÇÃO */}
           <div className="mb-8">
-            <div className="flex justify-between items-end mb-3">
-              <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold">Educação</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-sm uppercase tracking-wide text-slate-500 font-bold flex items-center gap-2">
+                <span className="section-indicator"></span>
+                Educação
+              </h2>
               <button onClick={() => addItem('formacao')} className="btn-add">+ Adicionar</button>
             </div>
             {dados.formacao.map((form, index) => (
@@ -386,15 +417,15 @@ export default function Home() {
 
         </div>
 
-        {/* PREVIEW PDF - ÁREA MODERNIZADA */}
-        <div className="flex-1 bg-gradient-to-br from-slate-100 to-slate-200 flex justify-center items-center p-6 relative">
+        {/* PREVIEW PDF - EFEITO PAPEL REAL */}
+        <div className="flex-1 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100 flex justify-center items-center p-8 relative">
           {dados !== dadosParaPDF && (
             <div className="absolute top-4 right-4 bg-purple-600 text-white text-xs px-4 py-2 rounded-lg shadow-lg shadow-purple-500/30 animate-pulse z-10 flex items-center gap-2">
               <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Atualizando...
             </div>
           )}
-          <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl shadow-slate-400/30 border border-white">
+          <div className="pdf-container w-full h-full">
             <PDFViewer width="100%" height="100%">
               <CurriculoPDF dados={dadosParaPDF} />
             </PDFViewer>
