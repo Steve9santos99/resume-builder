@@ -1,14 +1,8 @@
 import { Metadata } from 'next';
-import dynamic from "next/dynamic";
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
-import { CurriculoPDF } from '@/components/CurriculoPDF';
 import { DadosCurriculo } from '@/types';
-
-const PDFViewer = dynamic(
-  () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-  { ssr: false, loading: () => <div className="flex items-center justify-center h-full text-white">Gerando visualização...</div> }
-);
+import PublicPDFViewer from '@/components/PublicPDFViewer';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -59,9 +53,7 @@ export default async function PublicCurriculoPage({ params }: Props) {
       </div>
 
       <div className="w-full max-w-4xl h-[80vh] bg-white rounded-lg shadow-2xl overflow-hidden">
-        <PDFViewer width="100%" height="100%">
-          <CurriculoPDF dados={dados} />
-        </PDFViewer>
+        <PublicPDFViewer dados={dados} />
       </div>
       
       <div className="mt-4">
