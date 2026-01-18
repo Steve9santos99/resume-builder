@@ -98,9 +98,9 @@ export const CurriculoPDF = ({ dados }: { dados: DadosCurriculo }) => {
           )}
 
           <Text style={styles.sectionTitleLeft}>Contato</Text>
-          {dados.email && <Text style={styles.textLeft}>✉ {dados.email}</Text>}
-          {dados.telefone && <Text style={styles.textLeft}>📱 {dados.telefone}</Text>}
-          {dados.linkedin && <Text style={styles.textLeft}>🔗 {dados.linkedin}</Text>}
+          {dados.email && <Text style={styles.textLeft}>{dados.email}</Text>}
+          {dados.telefone && <Text style={styles.textLeft}>{dados.telefone}</Text>}
+          {dados.linkedin && <Text style={styles.textLeft}>{dados.linkedin}</Text>}
 
           <Text style={styles.sectionTitleLeft}>Habilidades</Text>
           {(dados.habilidades || "").split(',').map((hab, i) => (
