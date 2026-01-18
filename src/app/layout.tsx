@@ -21,7 +21,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider localization={ptBR}>
+    <ClerkProvider 
+      localization={ptBR}
+      appearance={{
+        variables: {
+          colorPrimary: '#7c3aed',
+          colorText: '#1e293b',
+          colorBackground: '#ffffff',
+          colorInputBackground: '#f8fafc',
+          colorInputText: '#1e293b',
+          borderRadius: '12px',
+        },
+        elements: {
+          formButtonPrimary: 'bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/30',
+          card: 'shadow-2xl shadow-slate-400/20 border border-slate-200',
+          headerTitle: 'text-slate-800 font-bold',
+          headerSubtitle: 'text-slate-500',
+          socialButtonsBlockButton: 'border border-slate-200 hover:bg-slate-50',
+          formFieldInput: 'border-slate-200 focus:border-purple-500 focus:ring-purple-500/20',
+          footerActionLink: 'text-purple-600 hover:text-purple-700',
+        }
+      }}
+    >
       <html lang="pt-BR">
         <body className={`${inter.variable} antialiased`}>
           {children}
